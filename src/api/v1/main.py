@@ -6,7 +6,8 @@ from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
 
 
-MODEL_PATH = os.path.join(os.path.dirname(__file__), 'model.joblib')
+MODEL_PATH = os.getenv("MODEL_PATH", "/app/model.joblib")
+model = joblib.load(MODEL_PATH)
 
 # Chargement du modèle entraîné
 try:
