@@ -1,0 +1,38 @@
+# MLOps NGINX Exam
+
+## Overview
+
+This project deploys a Machine Learning API using Nginx as a secure reverse proxy.
+
+Features:
+
+* Reverse proxy with Nginx
+* Load balancing (api-v1, 3 replicas via scaling command)
+* HTTPS with self-signed certificate
+* Basic authentication on `/predict`
+* Rate limiting
+* A/B routing to api-v2 using header `X-Experiment-Group: debug`
+* Monitoring with Prometheus and Grafana
+
+## Start
+
+Load balancing is enabled by scaling api-v1:
+
+make start-project
+
+(This runs docker compose with --scale api-v1=3)
+
+## Test
+
+make test
+
+## Access
+
+Prediction endpoint:
+https://localhost:8443/predict
+
+Monitoring:
+
+* Prometheus: http://localhost:9090
+* Grafana: http://localhost:3000
+
