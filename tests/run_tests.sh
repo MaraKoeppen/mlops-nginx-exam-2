@@ -21,7 +21,7 @@ print_result() {
 # --- Test 1: Nominal Prediction (API v1) ---
 echo "
 --- Running Test 1: Nominal Prediction (API v1) ---"
-response_v1=$(curl -s -o /dev/null -w "%{http_code}" -X POST "https://localhost/predict" \
+response_v1=$(curl -s -o /dev/null -w "%{http_code}" -X POST "https://localhost:8443/predict" \
      -H "Content-Type: application/json" \
      -d '{"sentence": "Oh yeah, that was soooo cool!"}' \
      --user admin:admin \
@@ -36,7 +36,7 @@ fi
 # --- Test 2: A/B Routing (API v2) ---
 echo "
 --- Running Test 2: A/B Routing (API v2) ---"
-response_v2_body=$(curl -s -X POST "https://localhost/predict" \
+response_v2_body=$(curl -s -X POST "https://localhost:8443/predict" \
      -H "Content-Type: application/json" \
      -H "X-Experiment-Group: debug" \
      -d '{"sentence": "Oh yeah, that was soooo cool!"}' \
@@ -52,7 +52,7 @@ fi
 # --- Test 3: Authentication Failure ---
 echo "
 --- Running Test 3: Authentication Failure ---"
-response_auth=$(curl -s -o /dev/null -w "%{http_code}" -X POST "https://localhost/predict" \
+response_auth=$(curl -s -o /dev/null -w "%{http_code}" -X POST "https://localhost:8443/predict" \
      -H "Content-Type: application/json" \
      -d '{"sentence": "test"}' \
      --user admin:wrongpassword \
@@ -69,7 +69,7 @@ echo "
 --- Running Test 4: Rate Limiting ---"
 # Send 15 requests in a loop
 for i in {1..15}; do
-    curl -s -o /dev/null -w "%{http_code}\n" -X POST "https://localhost/predict" \
+    curl -s -o /dev/null -w "%{http_code}\n" -X POST "https://localhost:8443/predict" \
          -H "Content-Type: application/json" \
          -d '{"sentence": "test"}' \
          --user admin:admin \
@@ -83,7 +83,7 @@ wait
 # For now, we'll assume the concept is demonstrated.
 # A proper test would require a more sophisticated client.
 # We will just check if the service is still up.
-response_after_burst=$(curl -s -o /dev/null -w "%{http_code}" -X POST "https://localhost/predict" \
+response_after_burst=$(curl -s -o /dev/null -w "%{http_code}" -X POST "https://localhost:8443/predict" \
      -H "Content-Type: application/json" \
      -d '{"sentence": "test"}' \
      --user admin:admin \
